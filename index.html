@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Ragnars radio</title>
+	<title>OBB test</title>
 	<meta name="viewport" content="width=device-width">
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
@@ -10,51 +10,11 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 </head>
 <body>
-	<header>
-		<nav id="header-nav" class="navbar navbar-default">
-			<div class="container">
-				<div class="navbar-header">
-					<a href="index.html" class="pull-left visible-xs visible-sm visible-md visible-lg">
-						<div id="logo-img" alt="Logo image"></div>
-					</a>
-					<div class="navbar-brand hidden-xs">
-						<a href="index.html">
-							<h3>Sveriges radio</h3>
-						</a>
-					</div>
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsable-nav" aria-expanded="false">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-				</div>
-				
-			</div>
-			<div id="collapsable-nav" class="collapse navbar-collapse">
-				<ul id="nav-list" class="nav navbar-nav navbar-right"></ul>
-			</div>
-		</nav>
-	</header>
-	<h1></h1>
-	<div class="container-fluid">	
-		<div class="row audioContainer">
-			<div class="col-xs-12 audioDummy" style="text-align: center;">
-				<div id="pic-show" class="audioElement">
-					<audio id="yourAudio" preload="none">
-						<source id="audioSource" src="http://sverigesradio.se/topsy/direkt/132.mp3" type="audio/mpeg">
-						Din browser stödjer inte ljudformatet.
-					</audio>
-					<a href="#"><button class="btn-circle"><span id="audioControl" class="glyphicon glyphicon-play" aria-hidden="true"></span></button></a>
-				</div>
-			</div>
-		</div>	
-		<div class="row">
-			<div class="col-xs-12">
-				<h1 id="programTitle">P2</h1>
-			</div>
-		</div>	
-	</div>
+	<p>
+		<input type="button" onclick="VolumeSample.toggle();" value="Play/Pause">
+		Volume: 
+		<input type="range" min="0" max="100" value="100" oninput="VolumeSample.changeVolume(this);">
+	</p>
 	<script src="js/jquery-2.2.3.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/script.js"></script>
