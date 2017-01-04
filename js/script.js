@@ -36,3 +36,7 @@ gainNode.changeVolume = function(element) {
   // sound as good.
   gainNode.gain.value = fraction * fraction;
 };
+
+oscillator.changePitch = function(element) {
+  oscillator.frequency.value = element.value;
+};
