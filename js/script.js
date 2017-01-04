@@ -51,7 +51,3 @@ oscillator.changePitch = function(element) {
 biquadFilter.changeFreq = function(element) {
   biquadFilter.frequency.value = element.value;
 };
-
-biquadFilter.changeQ = function(element) {
-  biquadFilter.frequency.value = element.value;
-};
