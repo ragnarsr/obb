@@ -51,3 +51,19 @@ oscillator.changePitch = function(element) {
 biquadFilter.changeFreq = function(element) {
   biquadFilter.frequency.value = element.value;
 };
+
+//media element source
+		var myAudio = document.querySelector('audio');
+		var source = audioCtx.createMediaElementSource(myAudio);
+		var gainNodeMedia = audioCtx.createGain();
+
+    source.connect(gainNodeMedia);
+    gainNodeMedia.connect(audioCtx.destination);
+
+gainNodeMedia.changeVolume = function(element) {
+  var volume = element.value;
+  var fraction = parseInt(element.value) / parseInt(element.max);
+  // Let's use an x*x curve (x-squared) since simple linear (x) does not
+  // sound as good.
+  gainNodeMedia.gain.value = fraction * fraction;
+};
