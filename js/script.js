@@ -12,7 +12,7 @@ var initialFreq = 3000;
 var initialVol = 0.04;
 var initialCutoffFreq = 1000;
 
-oscillator.type = 'sine'; // sine wave — other values are 'square', 'sawtooth', 'triangle' and 'custom'
+oscillator.type = 'saw'; // sine wave — other values are 'square', 'sawtooth', 'triangle' and 'custom'
 oscillator.frequency.value = initialFreq; // value in hertz
 oscillator.start();
 
