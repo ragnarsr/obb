@@ -29,3 +29,10 @@ mute.onclick = function() {
   }
 }
 
+gainNode.changeVolume = function(element) {
+  var volume = element.value;
+  var fraction = parseInt(element.value) / parseInt(element.max);
+  // Let's use an x*x curve (x-squared) since simple linear (x) does not
+  // sound as good.
+  gainNode.gain.value = fraction * fraction;
+};
