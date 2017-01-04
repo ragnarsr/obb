@@ -53,7 +53,5 @@ biquadFilter.changeFreq = function(element) {
 };
 
 biquadFilter.changeQ = function(element) {
-  var volume = element.value;
-  var fraction = parseInt(element.value) / parseInt(element.max);
-  biquadFilter.frequency.value = fraction;
+  biquadFilter.frequency.value = element.value;
 };
