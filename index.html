@@ -13,15 +13,14 @@
 	<div class="container">
 	<p>
 		<button class="mute" data-muted="false">Mute</button>
-		<br>
+	</p>
+	<p>
 		Volume: 
 		<input type="range" min="0" max="100" value="20" oninput="gainNode.changeVolume(this);">
 		Pitch:
 		<input type="range" min="20" max="6000" value="2000" oninput="oscillator.changePitch(this);">
 		Cutoff:
 		<input type="range" min="20" max="8000" value="1000" oninput="biquadFilter.changeFreq(this);">
-		Q:
-		<input type="range" min="1" max="10" value="1" oninput="biquadFilter.changeQ(this);">
 	</p>
 	</div>
 	<script src="js/jquery-2.2.3.min.js"></script>
