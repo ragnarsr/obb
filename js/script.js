@@ -1,78 +1,86 @@
-window.onload = init;
-var context;
-var bufferLoader;
+var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-function init() {
-  // Fix up prefixing
-  window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  context = new AudioContext();
+var oscillator = audioCtx.createOscillator();
+var gainNode = audioCtx.createGain();
 
-  bufferLoader = new BufferLoader(
-    context,
-    [
-      '../sounds/hyper-reality/br-jam-loop.wav',
-      '../sounds/hyper-reality/laughter.wav',
-    ],
-    finishedLoading
-    );
+oscillator.connect(gainNode);
+gainNode.connect(audioCtx.destination);
 
-  bufferLoader.load();
+var WIDTH = window.innerWidth;
+var HEIGHT = window.innerHeight;
+
+var maxFreq = 6000;
+var maxVol = 1;
+
+var initialFreq = 3000;
+var initialVol = 0.5;
+
+// set options for the oscillator
+
+oscillator.type = 'sine'; // sine wave — other values are 'square', 'sawtooth', 'triangle' and 'custom'
+oscillator.frequency.value = initialFreq; // value in hertz
+oscillator.start();
+
+gainNode.gain.value = initialVol;
+
+// Mouse pointer coordinates
+
+var CurX;
+var CurY;
+
+// Get new mouse pointer coordinates when mouse is moved
+// then set new gain and pitch values
+
+document.onmousemove = updatePage;
+
+function updatePage(e) {   
+    CurX = (window.Event) ? e.pageX : event.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
+    CurY = (window.Event) ? e.pageY : event.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
+    
+    oscillator.frequency.value = (CurX/WIDTH) * maxFreq;
+    gainNode.gain.value = (CurY/HEIGHT) * maxVol;
+
+    canvasDraw();
 }
 
-function finishedLoading(bufferList) {
-  // Create two sources and play them both together.
-  var source1 = context.createBufferSource();
-  var source2 = context.createBufferSource();
-  source1.buffer = bufferList[0];
-  source2.buffer = bufferList[1];
-
-  source1.connect(context.destination);
-  source2.connect(context.destination);
-  source1.start(0);
-  source2.start(0);
+function random(number1,number2) {
+  var randomNo = number1 + (Math.floor(Math.random() * (number2 - number1)) + 1);
+  return randomNo;
 }
 
+var canvas = document.querySelector('.canvas');
+canvas.width = WIDTH;
+canvas.height = HEIGHT;
 
-var VolumeSample = {
-};
+var canvasCtx = canvas.getContext('2d');
 
-// Gain node needs to be mutated by volume control.
-VolumeSample.gainNode = null;
+function canvasDraw() {
+  rX = CurX;
+  rY = CurY;
+  rC = Math.floor((gainNode.gain.value/maxVol)*30);
+ 
+  canvasCtx.globalAlpha = 0.2;
+ 
+  for(i=1;i<=15;i=i+2) {
+    canvasCtx.beginPath();
+    canvasCtx.fillStyle = 'rgb(' + 100+(i*10) + ',' + Math.floor((gainNode.gain.value/maxVol)*255) + ',' + Math.floor((oscillator.frequency.value/maxFreq)*255) + ')';
+    canvasCtx.arc(rX+random(0,50),rY+random(0,50),rC/2+i,(Math.PI/180)*0,(Math.PI/180)*360,false);
+    canvasCtx.fill();
+    canvasCtx.closePath();     
+  }    
+}
 
-VolumeSample.play = function() {
-  if (!context.createGain)
-    context.createGain = context.createGainNode;
-  this.gainNode = context.createGain();
-  var source = context.createBufferSource();
-  source.buffer = BUFFERS.techno;
+var mute = document.querySelector('.mute');
 
-  // Connect source to a gain node
-  source.connect(this.gainNode);
-  // Connect gain node to destination
-  this.gainNode.connect(context.destination);
-  // Start playback in a loop
-  source.loop = true;
-  if (!source.start)
-    source.start = source.noteOn;
-  source.start(0);
-  this.source = source;
-};
+mute.onclick = function() {
+  if(mute.id == "") {
+    gainNode.disconnect(audioCtx.destination);
+    mute.id = "activated";
+    mute.innerHTML = "Unmute";
+  } else {
+    gainNode.connect(audioCtx.destination);
+    mute.id = "";    
+    mute.innerHTML = "Mute";
+  }
+}
 
-VolumeSample.changeVolume = function(element) {
-  var volume = element.value;
-  var fraction = parseInt(element.value) / parseInt(element.max);
-  // Let's use an x*x curve (x-squared) since simple linear (x) does not
-  // sound as good.
-  this.gainNode.gain.value = fraction * fraction;
-};
-
-VolumeSample.stop = function() {
-  if (!this.source.stop)
-    this.source.stop = source.noteOff;
-  this.source.stop(0);
-};
-
-VolumeSample.toggle = function() {
-  this.playing ? this.stop() : this.play();
-  this.playing = !this.playing;
-};
