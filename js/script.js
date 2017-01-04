@@ -4,7 +4,7 @@ var oscillator = audioCtx.createOscillator();
 var gainNode = audioCtx.createGain();
 var biquadFilter = audioCtx.createBiquadFilter();
 
-oscillator.connect(biQuadFilter);
+oscillator.connect(biquadFilter);
 biQuadFilter.connect(gainNode);
 gainNode.connect(audioCtx.destination);
 
@@ -48,12 +48,12 @@ oscillator.changePitch = function(element) {
   oscillator.frequency.value = element.value;
 };
 
-biQuadFilter.changeFreq = function(element) {
-  biQuadFilter.frequency.value = element.value;
+biquadFilter.changeFreq = function(element) {
+  biquadFilter.frequency.value = element.value;
 };
 
-biQuadFilter.changeQ = function(element) {
+biquadFilter.changeQ = function(element) {
   var volume = element.value;
   var fraction = parseInt(element.value) / parseInt(element.max);
-  biQuadFilter.frequency.value = fraction;
+  biquadFilter.frequency.value = fraction;
 };
