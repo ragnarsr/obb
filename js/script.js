@@ -2,18 +2,25 @@ var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
 var oscillator = audioCtx.createOscillator();
 var gainNode = audioCtx.createGain();
+var biquadFilter = audioCtx.createBiquadFilter();
 
-oscillator.connect(gainNode);
+oscillator.connect(biQuadFilter);
+biQuadFilter.connect(gainNode);
 gainNode.connect(audioCtx.destination);
 
 var initialFreq = 3000;
 var initialVol = 0.04;
+var initialCutoffFreq = 1000;
 
 oscillator.type = 'sine'; // sine wave — other values are 'square', 'sawtooth', 'triangle' and 'custom'
 oscillator.frequency.value = initialFreq; // value in hertz
 oscillator.start();
 
 gainNode.gain.value = initialVol;
+
+biquadFilter.type = "lowpass";
+biquadFilter.frequency.value = initialCutoffFreq;
+biquadFilter.Q.value = 1;
 
 var mute = document.querySelector('.mute');
 
@@ -39,4 +46,14 @@ gainNode.changeVolume = function(element) {
 
 oscillator.changePitch = function(element) {
   oscillator.frequency.value = element.value;
+};
+
+biQuadFilter.changeFreq = function(element) {
+  biQuadFilter.frequency.value = element.value;
+};
+
+biQuadFilter.changeQ = function(element) {
+  var volume = element.value;
+  var fraction = parseInt(element.value) / parseInt(element.max);
+  biQuadFilter.frequency.value = fraction;
 };
