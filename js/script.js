@@ -5,14 +5,14 @@ var gainNode = audioCtx.createGain();
 var biquadFilter = audioCtx.createBiquadFilter();
 
 oscillator.connect(biquadFilter);
-biQuadFilter.connect(gainNode);
+biquadFilter.connect(gainNode);
 gainNode.connect(audioCtx.destination);
 
 var initialFreq = 3000;
 var initialVol = 0.04;
 var initialCutoffFreq = 1000;
 
-oscillator.type = 'saw'; // sine wave — other values are 'square', 'sawtooth', 'triangle' and 'custom'
+oscillator.type = 'sawtooth'; // 'sine, 'square', 'sawtooth', 'triangle' and 'custom'
 oscillator.frequency.value = initialFreq; // value in hertz
 oscillator.start();
 
