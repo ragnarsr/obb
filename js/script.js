@@ -53,9 +53,11 @@ biquadFilter.changeFreq = function(element) {
 };
 
 //media element source
-		var myAudio = document.querySelector('audio');
-		var source = audioCtx.createMediaElementSource(myAudio);
-		var gainNodeMedia = audioCtx.createGain();
+var myAudio = document.querySelector('audio');
+var source = audioCtx.createMediaElementSource(myAudio);
+var gainNodeMedia = audioCtx.createGain();
+
+myAudio.crossOrigin = "anonymous";
 
     source.connect(gainNodeMedia);
     gainNodeMedia.connect(audioCtx.destination);
